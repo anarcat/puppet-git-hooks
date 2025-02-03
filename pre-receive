@@ -16,6 +16,8 @@ then
 	done
 fi
 
+echo "running linters, use --push-option=lint.skip to skip"
+
 # Puppet attempts to source ~/.puppet and will error if $HOME is not set
 if [[ -z $HOME ]]
 then
