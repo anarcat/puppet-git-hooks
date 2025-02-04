@@ -8,15 +8,15 @@ then
 	do
 		eval "value=\$GIT_PUSH_OPTION_$i"
 		case "$value" in
-		lint.skip)
-			echo "$0: skipping linter because of lint.skip --push-option"
+		ci.skip)
+			echo "$0: skipping linter because of ci.skip --push-option"
 			exit 0
 		esac
 		i=$((i + 1))
 	done
 fi
 
-echo "running linters, use --push-option=lint.skip to skip"
+echo "running linters, use --push-option=ci.skip to skip"
 
 # Puppet attempts to source ~/.puppet and will error if $HOME is not set
 if [[ -z $HOME ]]
