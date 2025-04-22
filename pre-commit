@@ -15,12 +15,17 @@ hook_dir="$(dirname "$0")"
 hook_symlink="$(readlink "$0")"
 
 # Manage arguments passed to script
-while getopts ":a" o; do 
+while getopts ":asc:" o; do
     case "${o}" in
         a)
             CHECK_ALL=true;;
         s)
             export ERRORS_ONLY=true;;
+        c)
+            CHECK_COMMIT=$OPTARG;;
+        *)
+            echo "Unknown option ${o}" >&2
+            exit 1
     esac
 done
 
@@ -67,6 +72,8 @@ IFS=$(echo -en "\n\b")
 
 if [ $CHECK_ALL ]; then
     files_to_check=$(find "$git_root" -path "${git_root}/.git" -prune -o -print)
+elif [ -n "$CHECK_COMMIT" ]; then
+    files_to_check=$(git diff-tree --no-commit-id --name-only -r "$CHECK_COMMIT")
 else
     files_to_check=$(git diff --cached --name-only --diff-filter=ACM)
 fi
